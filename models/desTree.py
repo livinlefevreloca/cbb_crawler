@@ -4,18 +4,17 @@
 from sklearn import tree
 import sklearn.metrics as met
 import numpy
-import preprocess as pre
-
+import models.preprocess as pre
 X_train, y_train, X_test, y_test = pre.get_data()
-acc = []
-for i in range(2,500):
-    clf = tree.DecisionTreeClassifier(min_samples_split=i)
+def train_model():
+    
+    clf = tree.DecisionTreeClassifier(min_samples_split=500)
     clf.fit(X_train, y_train)
+    return clf
 
-    prediction = clf.predict(X_test)
+model = train_model()
 
-    acc.append(met.accuracy_score(prediction, y_test))
+# preds = model.predict(X_test)
+# print(met.accuracy_score(y_test, preds))
 
 
-print(acc)
-print(max(acc), acc.index(max(acc)))

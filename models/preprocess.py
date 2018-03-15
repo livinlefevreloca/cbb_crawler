@@ -81,11 +81,16 @@ def get_data():
         data = pickle.load(f)
     vectors = data[0]
     results = data[1]
-
     X_train, X_test, y_train,  y_test = train_test_split(vectors, results, test_size=0.05, random_state=9)
-
-    X_train_scaled = preprocessing.scale(X_train)
-    X_test_scaled = preprocessing.scale(X_test)
+    
+    scaler = preprocessing.StandardScaler()
+    scaler.fit(vectors)
+    
+    X_train_scaled = scaler.transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    with open('scale.pickle', 'wb') as scale:
+        pickle.dump(scaler, scale)
     
     return (X_train_scaled, y_train, X_test_scaled, y_test)
 
